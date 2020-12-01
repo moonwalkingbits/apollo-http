@@ -1,0 +1,45 @@
+{
+    "name": "@moonwalkingbits/apollo-http",
+    "version": "0.1.0",
+    "description": "A complete HTTP abstraction layer with a focus on immutability.",
+    "author": "Martin Pettersson <martin@moonwalkingbits.com>",
+    "license": "MIT",
+    "keywords": [
+        "apollo",
+        "http"
+    ],
+    "homepage": "https://github.com/moonwalkingbits/apollo-http#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/moonwalkingbits/apollo-http.git"
+    },
+    "bugs": {
+        "url": "https://github.com/moonwalkingbits/apollo-http/issues"
+    },
+    "type": "module",
+    "exports": {
+        ".": "./index.js"
+    },
+    "types": "index.d.ts",
+    "files": [
+        "index.js",
+        "index.d.ts",
+        "lib/"
+    ],
+    "scripts": {
+        "test": "mocha",
+        "test:cover": "c8 npm test",
+        "test:typescript": "tsd"
+    },
+    "engines": {
+        "node": ">=14.5"
+    },
+    "devDependencies": {
+        "@types/node": "~14.14",
+        "c8": "~7.3",
+        "chai": "~4.2",
+        "mocha": "~8.2",
+        "sinon": "~9.2",
+        "tsd": "~0.13"
+    }
+}
