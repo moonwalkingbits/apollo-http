@@ -42,202 +42,202 @@ describe("Url", () => {
         fragment = "fragment";
     });
 
-    describe("#getScheme()", () => {
+    describe("#scheme", () => {
         it("should return the scheme", () => {
-            expect(createUrl().getScheme()).to.equal(scheme);
+            expect(createUrl().scheme).to.equal(scheme);
         });
 
         it("should normalize the scheme", () => {
             scheme = "HtTp";
 
-            expect(createUrl().getScheme()).to.equal("http");
+            expect(createUrl().scheme).to.equal("http");
         });
 
         it("should return empty string if no scheme", () => {
             scheme = null;
 
-            expect(createUrl().getScheme()).to.equal("");
+            expect(createUrl().scheme).to.equal("");
         });
     });
 
-    describe("#getHost()", () => {
+    describe("#host", () => {
 
         it("Should return the host", () => {
-            expect(createUrl().getHost()).to.equal(host);
+            expect(createUrl().host).to.equal(host);
         });
 
         it("Should normalize the host", () => {
             host = "HoSt.DoMaIn";
 
-            expect(createUrl().getHost()).to.equal("host.domain");
+            expect(createUrl().host).to.equal("host.domain");
         });
 
         it("Should return empty string if no host", () => {
             host = null;
 
-            expect(createUrl().getHost()).to.equal("");
+            expect(createUrl().host).to.equal("");
         });
     });
 
-    describe("#getPath()", () => {
+    describe("#path", () => {
         it("Should return the path", () => {
-            expect(createUrl().getPath()).to.equal(path);
+            expect(createUrl().path).to.equal(path);
         });
 
         it("Should return empty string if no path", () => {
             path = null;
 
-            expect(createUrl().getPath()).to.equal("");
+            expect(createUrl().path).to.equal("");
         });
 
         it("Should not normalize path", () => {
             path = "/";
 
-            expect(createUrl().getPath()).to.equal(path);
+            expect(createUrl().path).to.equal(path);
 
             path = "";
 
-            expect(createUrl().getPath()).to.equal(path);
+            expect(createUrl().path).to.equal(path);
         });
 
         it("Should encode path", () => {
             path = "/path with spaces";
 
-            expect(createUrl().getPath()).to.equal("/path%20with%20spaces");
+            expect(createUrl().path).to.equal("/path%20with%20spaces");
         });
 
         it("Should not double encode path", () => {
             path = "/path%2F";
 
-            expect(createUrl().getPath()).to.equal(path);
+            expect(createUrl().path).to.equal(path);
         });
     });
 
-    describe("#getPort()", () => {
+    describe("#port", () => {
         it("Should return null if no port", () => {
-            expect(new Url().getPort()).to.be.null;
+            expect(new Url().port).to.be.null;
         });
 
         it("Should return null if standard port", () => {
             port = 80;
 
-            expect(createUrl().getPort()).to.be.null;
+            expect(createUrl().port).to.be.null;
 
             port = 443;
             scheme = "https";
 
-            expect(createUrl().getPort()).to.be.null;
+            expect(createUrl().port).to.be.null;
         });
 
         it("Should return port if non-standard port", () => {
             port = 8080;
 
-            expect(createUrl().getPort()).to.equal(8080);
+            expect(createUrl().port).to.equal(8080);
 
             port = 80;
             scheme = "git";
 
-            expect(createUrl().getPort()).to.equal(80);
+            expect(createUrl().port).to.equal(80);
         });
     });
 
-    describe("#getQuery()", () => {
+    describe("#query", () => {
         it("Should return the query", () => {
-            expect(createUrl().getQuery()).to.equal(query);
+            expect(createUrl().query).to.equal(query);
         });
 
         it("Should return empty string if no query", () => {
             query = null;
 
-            expect(createUrl().getQuery()).to.equal("");
+            expect(createUrl().query).to.equal("");
         });
 
         it("Should encode query", () => {
             query = "key=value&another-key=value with spaces";
 
-            expect(createUrl().getQuery()).to.equal("key=value&another-key=value%20with%20spaces");
+            expect(createUrl().query).to.equal("key=value&another-key=value%20with%20spaces");
         });
 
         it("Should not double encode query", () => {
             query = "key=value%2F";
 
-            expect(createUrl().getQuery()).to.equal(query);
+            expect(createUrl().query).to.equal(query);
         });
     });
 
-    describe("#getFragment()", () => {
+    describe("#fragment", () => {
         it("Should return the fragment", () => {
-            expect(createUrl().getFragment()).to.equal(fragment);
+            expect(createUrl().fragment).to.equal(fragment);
         });
 
         it("Should return empty string if no fragment", () => {
             fragment = null;
 
-            expect(createUrl().getFragment()).to.equal("");
+            expect(createUrl().fragment).to.equal("");
         });
 
         it("Should encode fragment", () => {
             fragment = "fragment with spaces";
 
-            expect(createUrl().getFragment()).to.equal("fragment%20with%20spaces");
+            expect(createUrl().fragment).to.equal("fragment%20with%20spaces");
         });
 
         it("Should not double encode fragment", () => {
             fragment = "fragment%2F";
 
-            expect(createUrl().getFragment()).to.equal(fragment);
+            expect(createUrl().fragment).to.equal(fragment);
         });
     });
 
-    describe("#getUserInfo()", () => {
+    describe("#userInfo", () => {
         it("Should return user info", () => {
-            expect(createUrl().getUserInfo()).to.equal(`${user}:${password}`);
+            expect(createUrl().userInfo).to.equal(`${user}:${password}`);
         });
 
         it("Should return username only if present", () => {
             password = null;
 
-            expect(createUrl().getUserInfo()).to.equal(user);
+            expect(createUrl().userInfo).to.equal(user);
         });
 
         it("Should return empty string if no user info", () => {
             user = null;
             password = null;
 
-            expect(createUrl().getUserInfo()).to.equal("");
+            expect(createUrl().userInfo).to.equal("");
         });
 
         it("Should return empty string if only password", () => {
             user = null;
 
-            expect(createUrl().getUserInfo()).to.equal("");
+            expect(createUrl().userInfo).to.equal("");
         });
     });
 
-    describe("#getAuthority()", () => {
+    describe("#authority", () => {
         it("Should return authority", () => {
             port = 8080;
 
-            expect(createUrl().getAuthority()).to.equal(`${user}:${password}@${host}:${port}`);
+            expect(createUrl().authority).to.equal(`${user}:${password}@${host}:${port}`);
         });
 
         it("Should return empty string if no host", () => {
             host = null;
 
-            expect(createUrl().getAuthority()).to.equal("");
+            expect(createUrl().authority).to.equal("");
         });
 
         it("Should omit user info if not present", () => {
             user = null;
             port = 80;
 
-            expect(createUrl().getAuthority()).to.equal(host);
+            expect(createUrl().authority).to.equal(host);
         });
 
         it("Should omit port if standard for protocol", () => {
             port = 80;
 
-            expect(createUrl().getAuthority()).to.equal(`${user}:${password}@${host}`);
+            expect(createUrl().authority).to.equal(`${user}:${password}@${host}`);
         });
     });
 
@@ -256,18 +256,18 @@ describe("Url", () => {
         it("Should produce instance with scheme", () => {
             const newScheme = "https";
 
-            expect(createUrl().withScheme(newScheme).getScheme()).to.equal(newScheme);
+            expect(createUrl().withScheme(newScheme).scheme).to.equal(newScheme);
         });
 
         it("Should normalize scheme", () => {
-            expect(createUrl().withScheme("HtTpS").getScheme()).to.equal("https");
+            expect(createUrl().withScheme("HtTpS").scheme).to.equal("https");
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withScheme("https");
 
-            expect(url.getScheme()).to.equal(scheme);
+            expect(url.scheme).to.equal(scheme);
         });
 
         it("Should return same instance for same scheme", () => {
@@ -283,24 +283,24 @@ describe("Url", () => {
         });
 
         it("Should remove scheme if an empty scheme is provided", () => {
-            expect(createUrl().withScheme("").getScheme()).to.equal("");
+            expect(createUrl().withScheme("").scheme).to.equal("");
         });
     });
 
     describe("#withUserInfo()", () => {
         it("Should produce instance with user info", () => {
-            expect(createUrl().withUserInfo("newUser", "newPassword").getUserInfo()).to.equal("newUser:newPassword");
+            expect(createUrl().withUserInfo("newUser", "newPassword").userInfo).to.equal("newUser:newPassword");
         });
 
         it("Should remove password if not given", () => {
-            expect(createUrl().withUserInfo("newUser").getUserInfo()).to.equal("newUser");
+            expect(createUrl().withUserInfo("newUser").userInfo).to.equal("newUser");
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withUserInfo("newUser");
 
-            expect(url.getUserInfo()).to.equal(`${user}:${password}`);
+            expect(url.userInfo).to.equal(`${user}:${password}`);
         });
 
         it("Should return same instance for same user info", () => {
@@ -316,7 +316,7 @@ describe("Url", () => {
         });
 
         it("Should remove user info if empty", () => {
-            expect(createUrl().withUserInfo("").getUserInfo()).to.equal("");
+            expect(createUrl().withUserInfo("").userInfo).to.equal("");
         });
     });
 
@@ -324,18 +324,18 @@ describe("Url", () => {
         it("Should produce instance with host", () => {
             const newHost = "example.com";
 
-            expect(createUrl().withHost(newHost).getHost()).to.equal(newHost);
+            expect(createUrl().withHost(newHost).host).to.equal(newHost);
         });
 
         it("Should normalize host", () => {
-            expect(createUrl().withHost("ExamplE.CoM").getHost()).to.equal("example.com");
+            expect(createUrl().withHost("ExamplE.CoM").host).to.equal("example.com");
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withHost("example.com");
 
-            expect(url.getHost()).to.equal(host);
+            expect(url.host).to.equal(host);
         });
 
         it("Should return same instance for same host", () => {
@@ -351,7 +351,7 @@ describe("Url", () => {
         });
 
         it("Should remove host if empty", () => {
-            expect(createUrl().withHost("").getHost()).to.equal("");
+            expect(createUrl().withHost("").host).to.equal("");
         });
     });
 
@@ -359,18 +359,18 @@ describe("Url", () => {
         it("Should produce instance with port", () => {
             const newPort = 3000;
 
-            expect(createUrl().withPort(newPort).getPort()).to.equal(newPort);
+            expect(createUrl().withPort(newPort).port).to.equal(newPort);
         });
 
         it("Should produce instance without port", () => {
-            expect(createUrl().withPort(null).getPort()).to.be.null;
+            expect(createUrl().withPort(null).port).to.be.null;
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withPort(3000);
 
-            expect(url.getPort()).to.equal(port);
+            expect(url.port).to.equal(port);
         });
 
         it("Should return same instance for same port", () => {
@@ -385,18 +385,18 @@ describe("Url", () => {
         it("Should produce instance with path", () => {
             const newPath = "new/path";
 
-            expect(createUrl().withPath(newPath).getPath()).to.equal(newPath);
+            expect(createUrl().withPath(newPath).path).to.equal(newPath);
         });
 
         it("Should encode path", () => {
-            expect(createUrl().withPath("path with spaces").getPath()).to.equal("path%20with%20spaces");
+            expect(createUrl().withPath("path with spaces").path).to.equal("path%20with%20spaces");
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withPath("new/path");
 
-            expect(url.getPath()).to.equal(path);
+            expect(url.path).to.equal(path);
         });
 
         it("Should return same instance for same path", () => {
@@ -412,7 +412,7 @@ describe("Url", () => {
         });
 
         it("Should remove path if empty", () => {
-            expect(createUrl().withPath("").getPath()).to.equal("");
+            expect(createUrl().withPath("").path).to.equal("");
         });
     });
 
@@ -420,18 +420,18 @@ describe("Url", () => {
         it("Should produce instance with query", () => {
             const newQuery = "key=newValue";
 
-            expect(createUrl().withQuery(newQuery).getQuery()).to.equal(newQuery);
+            expect(createUrl().withQuery(newQuery).query).to.equal(newQuery);
         });
 
         it("Should encode query", () => {
-            expect(createUrl().withQuery("key=value with spaces").getQuery()).to.equal("key=value%20with%20spaces");
+            expect(createUrl().withQuery("key=value with spaces").query).to.equal("key=value%20with%20spaces");
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withQuery("key=newValue");
 
-            expect(url.getQuery()).to.equal(query);
+            expect(url.query).to.equal(query);
         });
 
         it("Should return same instance for same query", () => {
@@ -447,7 +447,7 @@ describe("Url", () => {
         });
 
         it("Should remove query if empty", () => {
-            expect(createUrl().withQuery("").getQuery()).to.equal("");
+            expect(createUrl().withQuery("").query).to.equal("");
         });
     });
 
@@ -455,18 +455,18 @@ describe("Url", () => {
         it("Should produce instance with fragment", () => {
             const newfragment = "newFragment";
 
-            expect(createUrl().withFragment(newfragment).getFragment()).to.equal(newfragment);
+            expect(createUrl().withFragment(newfragment).fragment).to.equal(newfragment);
         });
 
         it("Should encode fragment", () => {
-            expect(createUrl().withFragment("fragment with spaces").getFragment()).to.equal("fragment%20with%20spaces");
+            expect(createUrl().withFragment("fragment with spaces").fragment).to.equal("fragment%20with%20spaces");
         });
 
         it("Should not mutate instance", () => {
             const url = createUrl();
             url.withFragment("newFragment");
 
-            expect(url.getFragment()).to.equal(fragment);
+            expect(url.fragment).to.equal(fragment);
         });
 
         it("Should return same instance for same fragment", () => {
@@ -482,7 +482,7 @@ describe("Url", () => {
         });
 
         it("Should remove fragment if empty", () => {
-            expect(createUrl().withFragment("").getFragment()).to.equal("");
+            expect(createUrl().withFragment("").fragment).to.equal("");
         });
     });
 });

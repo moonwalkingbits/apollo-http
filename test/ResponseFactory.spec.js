@@ -31,9 +31,9 @@ describe("ResponseFactory", () => {
         it("Should create a response with status and reason phrase", () => {
             const response = responseFactory.createResponse(200, "OK");
 
-            expect(response.getStatusCode()).to.equal(200);
-            expect(response.getReasonPhrase()).to.equal("OK");
-            expect(Object.is(streamFromFactory, response.getBody())).to.be.true;
+            expect(response.statusCode).to.equal(200);
+            expect(response.reasonPhrase).to.equal("OK");
+            expect(Object.is(streamFromFactory, response.body)).to.be.true;
         });
     });
 });

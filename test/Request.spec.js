@@ -17,8 +17,7 @@ const { createStubInstance } = require("sinon");
 describe("Message", () => {
     beforeEach(function() {
         this.method = RequestMethod.GET;
-        this.url = createStubInstance(Url);
-        this.url.getHost.returns("");
+        this.url = {host: ""};
         this.protocolVersion = "1.1";
         this.headers = new HeaderCollection();
         this.body = createStubInstance(Readable);
@@ -47,8 +46,7 @@ describe("Request", () => {
 
     beforeEach(() => {
         method = RequestMethod.GET;
-        url = createStubInstance(Url);
-        url.getHost.returns("");
+        url = {host: ""};
         protocolVersion = "1.1";
         headers = new HeaderCollection();
         body = createStubInstance(Readable);
@@ -57,36 +55,36 @@ describe("Request", () => {
 
     describe("#constructor()", () => {
         it("Should add host header", () => {
-            expect(request.getHeaderLine("Host")).to.be.empty;
+            expect(request.headerLine("Host")).to.be.empty;
 
             // Should set Host header if host is provided in the URL.
-            url.getHost.returns("example.com");
+            url.host = "example.com";
 
-            expect(createRequest().getHeaderLine("Host")).to.equal("example.com");
+            expect(createRequest().headerLine("Host")).to.equal("example.com");
 
             // Should not override existing Host header.
             headers = new HeaderCollection();
             headers.add("Host", "existing-host.com");
 
-            expect(createRequest().getHeaderLine("Host")).to.equal("existing-host.com");
+            expect(createRequest().headerLine("Host")).to.equal("existing-host.com");
         });
     });
 
-    describe("#getMethod()", () => {
+    describe("#method", () => {
         it("Should return the method", () => {
-            expect(request.getMethod()).to.equal(method);
+            expect(request.method).to.equal(method);
         });
     });
 
     describe("#withMethod()", () => {
         it("Should produce instance with method", () => {
-            expect(request.withMethod(RequestMethod.POST).getMethod()).to.equal(RequestMethod.POST);
+            expect(request.withMethod(RequestMethod.POST).method).to.equal(RequestMethod.POST);
         });
 
         it("Should not mutate instance", () => {
             request.withMethod(RequestMethod.POST);
 
-            expect(request.getMethod()).to.equal(method);
+            expect(request.method).to.equal(method);
         });
 
         it("Should return same instance for same method", () => {
@@ -96,9 +94,9 @@ describe("Request", () => {
         });
     });
 
-    describe("#getUrl()", () => {
+    describe("#url", () => {
         it("Should return url instance", () => {
-            expect(Object.is(url, request.getUrl())).to.be.true;
+            expect(Object.is(url, request.url)).to.be.true;
         });
     });
 
@@ -106,13 +104,13 @@ describe("Request", () => {
         it("Should produce instance with url", () => {
             const newUrl = createStubInstance(Url);
 
-            expect(Object.is(newUrl, request.withUrl(newUrl).getUrl())).to.be.true;
+            expect(Object.is(newUrl, request.withUrl(newUrl).url)).to.be.true;
         });
 
         it("Should not mutate instance", () => {
             request.withUrl(createStubInstance(Url));
 
-            expect(Object.is(url, request.getUrl())).to.be.true;
+            expect(Object.is(url, request.url)).to.be.true;
         });
 
         it("Should return same instance for same url", () => {
@@ -120,66 +118,66 @@ describe("Request", () => {
         });
 
         it("Should update host header", () => {
-            url.getHost.returns("new-host.com");
+            url.host = "new-host.com";
 
-            expect(request.withUrl(url).getHeaderLine("Host")).to.equal("new-host.com");
+            expect(request.withUrl(url).headerLine("Host")).to.equal("new-host.com");
         });
 
         it("Should preserve host header", () => {
-            url.getHost.returns("new-host.com");
+            url.host = "new-host.com";
 
-            expect(request.withUrl(url, true).getHeaderLine("Host")).to.equal("");
+            expect(request.withUrl(url, true).headerLine("Host")).to.equal("");
         });
     });
 
-    describe("#getRequestTarget()", () => {
+    describe("#target", () => {
         beforeEach(() => {
             target = "";
-            url.getPath.returns("/");
-            url.getQuery.returns("");
+            url.path = "/";
+            url.query = "";
         });
 
         it("Should return request target", () => {
             target = "*";
 
-            expect(createRequest().getRequestTarget()).to.equal("*");
+            expect(createRequest().target).to.equal("*");
         });
 
         it("Should return origin form of url if no request target", () => {
-            url.getPath.returns("/path");
-            expect(createRequest().getRequestTarget()).to.equal("/path");
+            url.path = "/path";
+            expect(createRequest().target).to.equal("/path");
 
-            url.getQuery.returns("key=value");
-            expect(createRequest().getRequestTarget()).to.equal("/path?key=value");
+            url.query = "key=value";
+            expect(createRequest().target).to.equal("/path?key=value");
         });
 
         it("Should return '/' if no request target or url", () => {
-            expect(request.getRequestTarget()).to.equal("/");
+            expect(request.target).to.equal("/");
         });
     });
 
-    describe("#withRequestTarget()", () => {
+    describe("#withTarget()", () => {
         beforeEach(() => {
-            url.getPath.returns("/");
-            url.getQuery.returns("");
+            url.path = "/";
+            url.query = "";
         });
 
         it("Should produce instance with request target", () => {
-            expect(request.withRequestTarget("*").getRequestTarget()).to.equal("*");
+            expect(request.withTarget("*").target).to.equal("*");
         });
 
         it("Should not mutate instance", () => {
-            request.withRequestTarget("*");
+            request.withTarget("*");
 
-            expect(request.getRequestTarget()).to.equal("/");
+            expect(request.target).to.equal("/");
         });
 
         it("Should return same instance for same request target", () => {
-            expect(Object.is(request, request.withRequestTarget(""))).to.be.true;
+            expect(Object.is(request, request.withTarget(""))).to.be.true;
 
             target = "*";
             const requestWithTarget = createRequest();
-            expect(Object.is(requestWithTarget, requestWithTarget.withRequestTarget("*"))).to.be.true;
+            expect(Object.is(requestWithTarget, requestWithTarget.withTarget("*"))).to.be.true;
         });
     });
 });

@@ -25,9 +25,9 @@ describe("Message", () => {
 });
 
 function messageTests(InstanceType) {
-    describe("#getProtocolVersion()", () => {
+    describe("#protocolVersion", () => {
         it("Should return protocol version", function() {
-            expect(this.createMessage().getProtocolVersion()).to.equal(this.protocolVersion);
+            expect(this.createMessage().protocolVersion).to.equal(this.protocolVersion);
         });
     });
 
@@ -36,7 +36,7 @@ function messageTests(InstanceType) {
             const message = this.createMessage().withProtocolVersion("2.0");
 
             expect(message).to.be.instanceof(InstanceType);
-            expect(message.getProtocolVersion()).to.equal("2.0");
+            expect(message.protocolVersion).to.equal("2.0");
         });
 
         it("Should not mutate instance", function() {
@@ -44,7 +44,7 @@ function messageTests(InstanceType) {
 
             message.withProtocolVersion("2.0");
 
-            expect(message.getProtocolVersion()).to.equal(this.protocolVersion);
+            expect(message.protocolVersion).to.equal(this.protocolVersion);
         });
 
         it("Should return same instance for same protocol version", function() {
@@ -70,55 +70,55 @@ function messageTests(InstanceType) {
         });
     });
 
-    describe("#getHeaders()", () => {
+    describe("#headers", () => {
         it("Should return an empty object if no headers", function() {
-            expect(this.createMessage().getHeaders()).to.be.an("object").that.is.empty;
+            expect(this.createMessage().headers).to.be.an("object").that.is.empty;
         });
 
         it("Should return an object with header names/values", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).getHeaders()).to.have.deep.property("Host", ["example.com"]);
+            expect(this.createMessage(null, headers).headers).to.have.deep.property("Host", ["example.com"]);
         });
     });
 
-    describe("#getHeader()", () => {
+    describe("#header()", () => {
         it("Should return an empty array if no header values", function() {
-            expect(this.createMessage().getHeader("Host")).to.be.an("array").that.is.empty;
+            expect(this.createMessage().header("Host")).to.be.an("array").that.is.empty;
         });
 
         it("Should return an array of header values", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).getHeader("Host")).to.have.members(["example.com"]);
+            expect(this.createMessage(null, headers).header("Host")).to.have.members(["example.com"]);
         });
 
         it("Should be case insensitive", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).getHeader("host")).to.have.members(["example.com"]);
+            expect(this.createMessage(null, headers).header("host")).to.have.members(["example.com"]);
         });
     });
 
-    describe("#getHeaderLine()", () => {
+    describe("#headerLine()", () => {
         it("Should return an empty string if no header values", function() {
-            expect(this.createMessage().getHeaderLine("Host")).to.be.a("string").that.is.empty;
+            expect(this.createMessage().headerLine("Host")).to.be.a("string").that.is.empty;
         });
 
         it("Should return a comma separated string of values", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
             const message = this.createMessage(null, headers);
 
-            expect(message.getHeaderLine("Host")).to.equal("example.com");
+            expect(message.headerLine("Host")).to.equal("example.com");
 
-            expect(message.withAddedHeader("Host", "other-host.com").getHeaderLine("Host"))
+            expect(message.withAddedHeader("Host", "other-host.com").headerLine("Host"))
                 .to.equal("example.com,other-host.com");
         });
 
         it("Should be case insensitive", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).getHeaderLine("host")).to.equal("example.com");
+            expect(this.createMessage(null, headers).headerLine("host")).to.equal("example.com");
         });
     });
 
@@ -127,13 +127,13 @@ function messageTests(InstanceType) {
             const message = this.createMessage().withHeader("X-Test", "test");
 
             expect(message).to.be.instanceof(InstanceType);
-            expect(message.getHeaderLine("X-Test")).to.equal("test");
+            expect(message.headerLine("X-Test")).to.equal("test");
         });
 
         it("Should override existing header", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).withHeader("Host", "other-host.com").getHeaderLine("Host"))
+            expect(this.createMessage(null, headers).withHeader("Host", "other-host.com").headerLine("Host"))
                 .to.equal("other-host.com");
         });
 
@@ -153,7 +153,7 @@ function messageTests(InstanceType) {
         });
 
         it("Should accept array of values", function() {
-            expect(this.createMessage().withHeader("X-Test", ["one", "two"]).getHeaderLine("X-Test")).to.equal("one,two");
+            expect(this.createMessage().withHeader("X-Test", ["one", "two"]).headerLine("X-Test")).to.equal("one,two");
         });
     });
 
@@ -162,20 +162,20 @@ function messageTests(InstanceType) {
             const message = this.createMessage().withAddedHeader("X-Test", "test");
 
             expect(message).to.be.instanceof(InstanceType);
-            expect(message.getHeaderLine("X-Test")).to.equal("test");
+            expect(message.headerLine("X-Test")).to.equal("test");
         });
 
         it("Should produce instance with added header", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).withAddedHeader("Host", "other-host.com").getHeaderLine("Host"))
+            expect(this.createMessage(null, headers).withAddedHeader("Host", "other-host.com").headerLine("Host"))
                 .to.equal("example.com,other-host.com");
         });
 
         it("Should preserve original case", function() {
             const headers = new HeaderCollection(Object.entries({"Host": ["example.com"]}));
 
-            expect(this.createMessage(null, headers).withAddedHeader("host", "other-host.com").getHeaders())
+            expect(this.createMessage(null, headers).withAddedHeader("host", "other-host.com").headers)
                 .to.have.property("Host");
         });
 
@@ -219,9 +219,9 @@ function messageTests(InstanceType) {
         });
     });
 
-    describe("#getBody()", () => {
+    describe("#body", () => {
         it("Should return body", function() {
-            expect(Object.is(this.body, this.createMessage().getBody())).to.be.true;
+            expect(Object.is(this.body, this.createMessage().body)).to.be.true;
         });
     });
 
@@ -231,7 +231,7 @@ function messageTests(InstanceType) {
             const message = this.createMessage().withBody(body);
 
             expect(message).to.be.instanceof(InstanceType);
-            expect(Object.is(body, message.getBody())).to.be.true;
+            expect(Object.is(body, message.body)).to.be.true;
         });
 
         it("Should not mutate instance", function() {
@@ -239,7 +239,7 @@ function messageTests(InstanceType) {
 
             message.withBody(createStubInstance(Readable));
 
-            expect(Object.is(this.body, message.getBody())).to.be.true;
+            expect(Object.is(this.body, message.body)).to.be.true;
         });
 
         it("Should return same instance for same body", function() {

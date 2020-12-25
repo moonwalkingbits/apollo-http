@@ -64,18 +64,18 @@ const message = new Message("1.1", new HeaderCollection(), new Duplex());
 new Message("1.1", new HeaderCollection(), new Writable());
 new Message("1.1", new HeaderCollection(), new Readable());
 expectAssignable<MessageInterface>(message);
-expectType<string>(message.getProtocolVersion());
+expectType<string>(message.protocolVersion);
 expectType<Message>(message.withProtocolVersion("1.1"));
-expectType<{[name: string]: Array<string>}>(message.getHeaders());
+expectType<{[name: string]: Array<string>}>(message.headers);
 expectType<boolean>(message.hasHeader("Content-Type"));
-expectType<Array<string>>(message.getHeader("Content-Type"));
-expectType<string>(message.getHeaderLine("Content-Type"));
+expectType<Array<string>>(message.header("Content-Type"));
+expectType<string>(message.headerLine("Content-Type"));
 expectType<Message>(message.withHeader("Accept", "text/plain"));
 expectType<Message>(message.withHeader("Accept", ["text/plain", "text/xml"]));
 expectType<Message>(message.withAddedHeader("Accept", "text/plain"));
 expectType<Message>(message.withAddedHeader("Accept", ["text/plain", "text/xml"]));
 expectType<Message>(message.withoutHeader("Content-Type"));
-expectType<Readable | Writable>(message.getBody());
+expectType<Readable | Writable>(message.body);
 expectType<Message>(message.withBody(new Duplex()));
 
 /*
@@ -97,14 +97,14 @@ new Url("http", "user", "password", "host", 80, "/");
 new Url("http", "user", "password", "host", 80, "/", "key=value");
 new Url("http", "user", "password", "host", 80, "/", "key=value", "fragment");
 expectAssignable<UrlInterface>(url);
-expectType<string>(url.getScheme());
-expectType<string>(url.getAuthority());
-expectType<string>(url.getUserInfo());
-expectType<string>(url.getHost());
-expectType<number | null>(url.getPort());
-expectType<string>(url.getPath());
-expectType<string>(url.getQuery());
-expectType<string>(url.getFragment());
+expectType<string>(url.scheme);
+expectType<string>(url.authority);
+expectType<string>(url.userInfo);
+expectType<string>(url.host);
+expectType<number | null>(url.port);
+expectType<string>(url.path);
+expectType<string>(url.query);
+expectType<string>(url.fragment);
 expectType<Url>(url.withScheme("https"));
 expectType<Url>(url.withUserInfo("user"));
 expectType<Url>(url.withUserInfo("user", "password"));
@@ -145,13 +145,17 @@ new Request(RequestMethod.GET, new Url(), "1.1", new HeaderCollection(), new Dup
 new Request(RequestMethod.GET, new Url(), "1.1", new HeaderCollection(), new Duplex());
 expectAssignable<RequestInterface>(request);
 expectAssignable<MessageInterface>(request);
-expectAssignable<Message>(request);
-expectType<RequestMethod>(request.getMethod());
+expectType<Request>(request.withProtocolVersion("1.1"));
+expectType<Request>(request.withHeader("Content-Type", "application/json"));
+expectType<Request>(request.withAddedHeader("Content-Type", "application/json"));
+expectType<Request>(request.withoutHeader("Content-Type"));
+expectType<Request>(request.withBody(new Readable()));
+expectType<RequestMethod>(request.method);
 expectType<Request>(request.withMethod(RequestMethod.POST));
-expectType<Url>(request.getUrl());
+expectType<Url>(request.url);
 expectType<Request>(request.withUrl(new Url()));
-expectType<string>(request.getRequestTarget());
-expectType<Request>(request.withRequestTarget("*"));
+expectType<string>(request.target);
+expectType<Request>(request.withTarget("*"));
 
 /*
 |--------------------------------------------------------------------------
@@ -180,8 +184,13 @@ const response = new Response(ResponseStatus.OK, "1.1", new HeaderCollection(), 
 new Response(ResponseStatus.OK, "1.1", new HeaderCollection(), new Writable());
 expectAssignable<ResponseInterface>(response);
 expectAssignable<MessageInterface>(response);
-expectType<ResponseStatus>(response.getStatusCode());
-expectType<string>(response.getReasonPhrase());
+expectType<Response>(response.withProtocolVersion("1.1"));
+expectType<Response>(response.withHeader("Content-Type", "application/json"));
+expectType<Response>(response.withAddedHeader("Content-Type", "application/json"));
+expectType<Response>(response.withoutHeader("Content-Type"));
+expectType<Response>(response.withBody(new Readable()));
+expectType<ResponseStatus>(response.statusCode);
+expectType<string>(response.reasonPhrase);
 expectType<Response>(response.withStatus(ResponseStatus.OK, "OK"));
 expectType<Response>(response.withStatus(ResponseStatus.NOT_FOUND));
 

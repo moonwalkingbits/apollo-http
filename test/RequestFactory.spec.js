@@ -22,9 +22,7 @@ describe("RequestFactory", () => {
 
     beforeEach(() => {
         url = createStubInstance(Url);
-        url.getHost.returns("");
         urlFromFactory = createStubInstance(Url);
-        urlFromFactory.getHost.returns("");
         urlFactory = createStubInstance(UrlFactory);
         urlFactory.createUrl.returns(urlFromFactory);
         requestFactory = createRequestFactory();
@@ -34,14 +32,14 @@ describe("RequestFactory", () => {
         it("Should create a request with method and url", () => {
             const request = requestFactory.createRequest(RequestMethod.GET, url);
 
-            expect(request.getMethod()).to.equal(RequestMethod.GET);
-            expect(Object.is(url, request.getUrl())).to.be.true;
+            expect(request.method).to.equal(RequestMethod.GET);
+            expect(Object.is(url, request.url)).to.be.true;
         });
 
         it("Should accept string url", () => {
             const request = requestFactory.createRequest(RequestMethod.GET, "http://example.com");
 
-            expect(Object.is(urlFromFactory, request.getUrl())).to.be.true;
+            expect(Object.is(urlFromFactory, request.url)).to.be.true;
         });
     });
 });
