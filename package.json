@@ -27,7 +27,7 @@
         "lib/"
     ],
     "scripts": {
-        "test": "mocha",
+        "test": "mocha --reporter dot",
         "test:cover": "c8 npm test",
         "test:typescript": "tsd"
     },
