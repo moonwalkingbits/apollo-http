@@ -1,6 +1,6 @@
 {
     "name": "@moonwalkingbits/apollo-http",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A complete HTTP abstraction layer with a focus on immutability.",
     "author": "Martin Pettersson <martin@moonwalkingbits.com>",
     "license": "MIT",
