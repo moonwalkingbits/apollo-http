@@ -220,7 +220,7 @@ declare enum ResponseStatus {
     NETWORK_CONNECT_TIMEOUT_ERROR = 599
 }
 
-declare interface ResponseInterface {
+declare interface ResponseInterface extends MessageInterface {
     readonly statusCode: ResponseStatus;
     readonly reasonPhrase: string;
     withStatus(code: ResponseStatus, reasonPhrase?: string): Response;
